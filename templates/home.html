@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Home | StudentHub{% endblock %}
+
+{% block content %}
+
+<div class="fade-in">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="card glow-border" style="border-radius:20px;">
+                <div class="card-body text-center py-5 px-4">
+
+                    <div style="font-size:4rem; margin-bottom:1rem;">
+                        <i class="bi bi-mortarboard-fill text-gradient" style="-webkit-text-fill-color: unset; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    </div>
+
+                    <h1 class="display-5 fw-bold text-gradient mb-3">
+                        Student Management System
+                    </h1>
+
+                    <p class="lead mb-4" style="color: var(--text-muted); max-width:600px; margin:0 auto;">
+                        A modern, elegant platform to manage student records.
+                        Add, view, search, update & delete — all from your browser.
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="/add" class="btn btn-success-glow btn-lg" id="hero-add-btn">
+                            <i class="bi bi-person-plus-fill me-1"></i>
+                            Add Student
+                        </a>
+                        <a href="/students" class="btn btn-accent btn-lg" id="hero-view-btn">
+                            <i class="bi bi-people-fill me-1"></i>
+                            View Students
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ STATS ═══════════ -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center glow-border" id="stat-students">
+                <div class="card-body py-4">
+                    <div style="width:70px; height:70px; border-radius:18px; background:rgba(99,102,241,0.12); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                        <i class="bi bi-people-fill" style="font-size:2rem; color:var(--accent);"></i>
+                    </div>
+                    <h2 class="fw-bold text-gradient">{{ total_students }}</h2>
+                    <p style="color:var(--text-muted); margin:0;">Total Students</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center glow-border" id="stat-courses">
+                <div class="card-body py-4">
+                    <div style="width:70px; height:70px; border-radius:18px; background:rgba(52,211,153,0.12); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                        <i class="bi bi-journal-bookmark-fill" style="font-size:2rem; color:var(--success);"></i>
+                    </div>
+                    <h2 class="fw-bold" style="color:var(--success);">{{ total_courses }}</h2>
+                    <p style="color:var(--text-muted); margin:0;">Courses Offered</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 text-center glow-border" id="stat-features">
+                <div class="card-body py-4">
+                    <div style="width:70px; height:70px; border-radius:18px; background:rgba(251,191,36,0.12); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                        <i class="bi bi-lightning-fill" style="font-size:2rem; color:var(--warning);"></i>
+                    </div>
+                    <h2 class="fw-bold" style="color:var(--warning);">5</h2>
+                    <p style="color:var(--text-muted); margin:0;">CRUD Operations</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════ FEATURES ═══════════ -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 text-center glow-border" id="feature-add">
+                <div class="card-body py-4">
+                    <i class="bi bi-person-plus-fill" style="font-size:3rem; color:var(--success);"></i>
+                    <h5 class="mt-3 fw-bold">Add</h5>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Register new students with full details.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 text-center glow-border" id="feature-view">
+                <div class="card-body py-4">
+                    <i class="bi bi-card-list" style="font-size:3rem; color:var(--accent);"></i>
+                    <h5 class="mt-3 fw-bold">View</h5>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Browse all records in a clean table.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 text-center glow-border" id="feature-update">
+                <div class="card-body py-4">
+                    <i class="bi bi-pencil-square" style="font-size:3rem; color:var(--warning);"></i>
+                    <h5 class="mt-3 fw-bold">Update</h5>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Edit information whenever needed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 text-center glow-border" id="feature-delete">
+                <div class="card-body py-4">
+                    <i class="bi bi-trash-fill" style="font-size:3rem; color:var(--danger);"></i>
+                    <h5 class="mt-3 fw-bold">Delete</h5>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Remove records safely with confirmation.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card glow-border">
+                <div class="card-header">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    About This Project
+                </div>
+                <div class="card-body">
+                    <p style="font-size:1.05rem;">
+                        This <strong>Student Management System</strong> is built using
+                        <span class="text-gradient fw-bold">Python</span>,
+                        <span class="text-gradient fw-bold">Flask</span>, and
+                        <span class="text-gradient fw-bold">Bootstrap 5</span>.
+                        Data is stored in a lightweight JSON file — no database setup required.
+                    </p>
+                    <p style="color:var(--text-muted);">
+                        Manage student records effortlessly through an intuitive, responsive web interface.
+                        Perform all CRUD operations — Add, View, Search, Update, and Delete — directly from your browser.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

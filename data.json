@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Farhat Jabeen",
+        "age": "20",
+        "gender": "Female",
+        "course": "HTML",
+        "email": "fjabeen749@gmail.com",
+        "phone": "9831589566"
+    },
+    {
+        "id": 2,
+        "name": "jit",
+        "age": "20",
+        "gender": "Male",
+        "course": "PHP",
+        "email": "jit@gmail.com",
+        "phone": "9831589566"
+    },
+    {
+        "id": 3,
+        "name": "neelabja",
+        "age": "20",
+        "gender": "Male",
+        "course": "python",
+        "email": "nil@gmail.com",
+        "phone": "9831589566"
+    },
+    {
+        "id": 4,
+        "name": "sneha",
+        "age": "20",
+        "gender": "Female",
+        "course": "php",
+        "email": "sneha@gmail.com",
+        "phone": "9831589566"
+    }
+]

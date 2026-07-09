@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}All Students | StudentHub{% endblock %}
+
+{% block content %}
+
+<div class="fade-in">
+
+    <div class="card glow-border">
+
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <i class="bi bi-people-fill me-2"></i>
+                Student Records
+                {% if students %}
+                    <span class="badge rounded-pill ms-2" style="background: rgba(255,255,255,0.2); font-size:0.75rem;">
+                        {{ students|length }} student{{ 's' if students|length != 1 }}
+                    </span>
+                {% endif %}
+            </div>
+            <a href="/add" class="btn btn-glass" id="add-new-btn">
+                <i class="bi bi-person-plus-fill me-1"></i>
+                Add New
+            </a>
+        </div>
+
+        <div class="card-body">
+
+            {% if students %}
+
+            <div class="table-responsive">
+                <table class="table" id="students-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Course</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>
+                                <span class="badge" style="background:rgba(99,102,241,0.15); color:var(--accent); font-size:0.85rem;">
+                                    #{{ student.id }}
+                                </span>
+                            </td>
+                            <td class="fw-semibold">{{ student.name }}</td>
+                            <td>{{ student.age }}</td>
+                            <td>
+                                {% if student.gender == 'Male' %}
+                                    <span style="color:#60a5fa;"><i class="bi bi-gender-male"></i> Male</span>
+                                {% elif student.gender == 'Female' %}
+                                    <span style="color:#f472b6;"><i class="bi bi-gender-female"></i> Female</span>
+                                {% else %}
+                                    <span style="color:var(--text-muted);"><i class="bi bi-gender-ambiguous"></i> {{ student.gender }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge" style="background:rgba(52,211,153,0.12); color:var(--success); font-weight:500;">
+                                    {{ student.course }}
+                                </span>
+                            </td>
+                            <td style="color:var(--text-muted); font-size:0.9rem;">{{ student.email or '—' }}</td>
+                            <td style="color:var(--text-muted); font-size:0.9rem;">{{ student.phone or '—' }}</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="/edit/{{ student.id }}"
+                                       class="btn btn-warning-glow"
+                                       title="Edit Student"
+                                       id="edit-btn-{{ student.id }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/delete/{{ student.id }}"
+                                       class="btn btn-danger-glow"
+                                       title="Delete Student"
+                                       id="delete-btn-{{ student.id }}"
+                                       style="padding:0.35rem 0.75rem; font-size:0.82rem;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+                <div style="width:90px; height:90px; border-radius:22px; background:rgba(99,102,241,0.08); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem;">
+                    <i class="bi bi-folder-x" style="font-size:2.5rem; color:var(--text-muted);"></i>
+                </div>
+                <h4 class="fw-bold mb-2">No Student Records Found</h4>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;">
+                    There are no students registered yet. Start by adding one.
+                </p>
+                <a href="/add" class="btn btn-success-glow btn-lg" id="add-first-btn">
+                    <i class="bi bi-person-plus-fill me-1"></i>
+                    Add First Student
+                </a>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

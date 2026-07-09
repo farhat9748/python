@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A modern Student Management System built with Python Flask. Manage student records with ease.">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* ═══════════════════ DESIGN TOKENS ═══════════════════ */
+        :root {
+            --bg-dark:       #0a0e1a;
+            --bg-card:       #111827;
+            --bg-card-hover: #1a2235;
+            --bg-surface:    #0f1629;
+            --border-color:  rgba(99, 102, 241, 0.15);
+            --accent:        #818cf8;
+            --accent-glow:   rgba(129, 140, 248, 0.25);
+            --accent-dark:   #6366f1;
+            --success:       #34d399;
+            --danger:        #f87171;
+            --warning:       #fbbf24;
+            --text-primary:  #f1f5f9;
+            --text-muted:    #94a3b8;
+            --gradient-1:    linear-gradient(135deg, #6366f1, #818cf8, #a78bfa);
+            --gradient-2:    linear-gradient(135deg, #0ea5e9, #6366f1);
+            --glass-bg:      rgba(17, 24, 39, 0.7);
+            --glass-border:  rgba(99, 102, 241, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════ BACKGROUND EFFECTS ═══════════════════ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: ambientShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambientShift {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, -2%) rotate(3deg); }
+        }
+
+        /* ═══════════════════ NAVBAR ═══════════════════ */
+        .navbar {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.9rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-brand i {
+            -webkit-text-fill-color: #818cf8;
+            font-size: 1.6rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent) !important;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-link i {
+            margin-right: 0.3rem;
+        }
+
+        .navbar-toggler {
+            border-color: var(--glass-border);
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        /* ═══════════════════ MAIN CONTAINER ═══════════════════ */
+        .main-container {
+            flex: 1;
+            padding: 2.5rem 1.25rem;
+        }
+
+        /* ═══════════════════ CARDS ═══════════════════ */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: var(--gradient-1);
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.02em;
+        }
+
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        /* ═══════════════════ BUTTONS ═══════════════════ */
+        .btn-accent {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 0.65rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-accent::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px var(--accent-glow);
+            color: white;
+        }
+
+        .btn-accent:hover::after {
+            opacity: 1;
+        }
+
+        .btn-glass {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            font-weight: 500;
+            padding: 0.55rem 1.25rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glass:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .btn-success-glow {
+            background: linear-gradient(135deg, #059669, #34d399);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 0.65rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(52, 211, 153, 0.3);
+            color: white;
+        }
+
+        .btn-danger-glow {
+            background: linear-gradient(135deg, #dc2626, #f87171);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 0.65rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(248, 113, 113, 0.3);
+            color: white;
+        }
+
+        .btn-warning-glow {
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            color: #111;
+            border: none;
+            font-weight: 600;
+            padding: 0.55rem 1.1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning-glow:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);
+            color: #111;
+        }
+
+        .btn-secondary-glass {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            font-weight: 500;
+            padding: 0.65rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-glass:hover {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-primary);
+            border-color: rgba(148, 163, 184, 0.4);
+        }
+
+        /* ═══════════════════ FORMS ═══════════════════ */
+        .form-control,
+        .form-select {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: var(--bg-surface);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+        }
+
+        .form-label {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ═══════════════════ TABLE ═══════════════════ */
+        .table {
+            --bs-table-bg: transparent;
+            --bs-table-color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table thead {
+            background: rgba(99, 102, 241, 0.12);
+        }
+
+        .table thead th {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-color: var(--border-color);
+            vertical-align: middle;
+            font-size: 0.925rem;
+        }
+
+        .table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* ═══════════════════ ALERTS ═══════════════════ */
+        .alert {
+            border-radius: 14px;
+            border: none;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.4s ease;
+        }
+
+        .alert-success {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+        }
+
+        .alert-danger {
+            background: rgba(248, 113, 113, 0.12);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+        }
+
+        .alert-secondary {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .alert-info {
+            background: rgba(14, 165, 233, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(14, 165, 233, 0.25);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════ FOOTER ═══════════════════ */
+        footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 1.25rem 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        footer span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* ═══════════════════ UTILITIES ═══════════════════ */
+        .text-gradient {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow-border {
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.06);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Action buttons in table */
+        .action-btns {
+            display: flex;
+            gap: 0.4rem;
+            justify-content: center;
+        }
+
+        .action-btns .btn {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.82rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-dark);
+            border-radius: 4px;
+        }
+
+        /* ═══════════════════ RESPONSIVE ═══════════════════ */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.15rem;
+            }
+            .main-container {
+                padding: 1.5rem 0.75rem;
+            }
+            .card-body {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-mortarboard-fill"></i>
+            StudentHub
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto gap-1">
+                {% if session.get('user_id') %}
+                    {% if session.get('role') == 'Admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/admin/dashboard' %}active{% endif %}" href="{{ url_for('admin_dashboard') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/add' %}active{% endif %}" href="{{ url_for('add_student') }}">
+                                <i class="bi bi-person-plus-fill"></i> Add Student
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/user/dashboard' %}active{% endif %}" href="{{ url_for('user_dashboard') }}">
+                                <i class="bi bi-person-circle"></i> Dashboard
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/students' %}active{% endif %}" href="{{ url_for('view_students') }}">
+                            <i class="bi bi-people-fill"></i> Directory
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/search' %}active{% endif %}" href="{{ url_for('search_student') }}">
+                            <i class="bi bi-search"></i> Search
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-outline-danger btn-sm mt-1" href="{{ url_for('logout') }}" style="border-radius: 8px;">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="{{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-accent btn-sm mt-1 ms-lg-2" href="{{ url_for('register') }}">
+                            <i class="bi bi-person-plus-fill"></i> Register
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<div class="container main-container">
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {% if category == 'success' %}
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                    {% elif category == 'danger' %}
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    {% else %}
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                    {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+    <div class="container">
+        <p>Built with <span>Python Flask</span> &middot; Student Management System &copy; 2026</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block js %}
+{% endblock %}
+
+</body>
+</html>

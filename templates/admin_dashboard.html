@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | StudentHub{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">Admin Dashboard</h2>
+            <p style="color:var(--text-muted); margin-bottom:0;">Welcome back, <strong style="color:var(--text-primary);">{{ session['username'] }}</strong>! Here's what's happening.</p>
+        </div>
+        <div>
+            <a href="{{ url_for('add_student') }}" class="btn btn-success-glow">
+                <i class="bi bi-person-plus-fill me-1"></i> Add Student
+            </a>
+        </div>
+    </div>
+
+    <!-- Analytics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 glow-border">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div style="width:60px; height:60px; border-radius:14px; background:rgba(99,102,241,0.12); display:flex; align-items:center; justify-content:center; margin-right:1rem;">
+                        <i class="bi bi-people-fill" style="font-size:1.8rem; color:var(--accent);"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-gradient">{{ total_students }}</h3>
+                        <p style="color:var(--text-muted); margin:0; font-size:0.9rem;">Total Students</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 glow-border">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div style="width:60px; height:60px; border-radius:14px; background:rgba(52,211,153,0.12); display:flex; align-items:center; justify-content:center; margin-right:1rem;">
+                        <i class="bi bi-journal-bookmark-fill" style="font-size:1.8rem; color:var(--success);"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0" style="color:var(--success);">{{ total_courses }}</h3>
+                        <p style="color:var(--text-muted); margin:0; font-size:0.9rem;">Active Courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 glow-border">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3" style="color:var(--text-muted); font-size:0.9rem; text-transform:uppercase; letter-spacing:0.05em;">Gender Distribution</h5>
+                    <div class="d-flex justify-content-between align-items-center h-100" style="padding-bottom:1rem;">
+                        <div class="text-center">
+                            <h4 class="fw-bold mb-0" style="color:#60a5fa;">{{ genders.get('Male', 0) }}</h4>
+                            <small style="color:var(--text-muted);">Male</small>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="fw-bold mb-0" style="color:#f472b6;">{{ genders.get('Female', 0) }}</h4>
+                            <small style="color:var(--text-muted);">Female</small>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="fw-bold mb-0" style="color:var(--warning);">{{ genders.get('Other', 0) }}</h4>
+                            <small style="color:var(--text-muted);">Other</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Students Table -->
+    <div class="card glow-border">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-clock-history me-2"></i> Recently Added Students</span>
+            <a href="{{ url_for('view_students') }}" class="btn btn-sm btn-glass">View All</a>
+        </div>
+        <div class="card-body p-0">
+            {% if recent_students %}
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in recent_students %}
+                        <tr>
+                            <td>
+                                <span class="badge" style="background:rgba(99,102,241,0.15); color:var(--accent);">#{{ student.id }}</span>
+                            </td>
+                            <td class="fw-semibold">{{ student.name }}</td>
+                            <td>
+                                <span class="badge" style="background:rgba(52,211,153,0.12); color:var(--success); font-weight:500;">
+                                    {{ student.course }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-btns" style="justify-content: flex-start;">
+                                    <a href="/edit/{{ student.id }}" class="btn btn-warning-glow" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/delete/{{ student.id }}" class="btn btn-danger-glow" title="Delete" style="padding:0.35rem 0.75rem; font-size:0.82rem;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center p-4">
+                <p style="color:var(--text-muted); margin:0;">No students added yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

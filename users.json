@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "username": "fariha",
+        "password": "scrypt:32768:8:1$FqOQ07ndMi6vvVsJ$5f59e2b02146b15ceaa9adb9f5d02991c1bb0dce1852ba7ea12349087c0264c8357e06552ba40bc49acdf0bbdd9cda7aea80f2a9f6a1ab685ad41fd92d40f041",
+        "role": "Admin"
+    },
+    {
+        "id": 2,
+        "username": "sneha",
+        "password": "scrypt:32768:8:1$lV2JWjGvqD1Eia99$200ac040f57eba2d2a169dba4cf0ac8d290919b249ea91baaada67d4157012e65c7ca41a5be42cc4d18cf6f0a6507d22f27af73a794c523ca0ceba5b55cda24b",
+        "role": "User"
+    }
+]

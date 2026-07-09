@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Student | StudentHub{% endblock %}
+
+{% block content %}
+
+<div class="fade-in">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="card glow-border" style="border-color: rgba(248, 113, 113, 0.3);">
+
+                <div class="card-header" style="background: linear-gradient(135deg, #dc2626, #f87171);">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Confirm Deletion
+                </div>
+
+                <div class="card-body text-center">
+
+                    <!-- Warning Icon -->
+                    <div style="width:90px; height:90px; border-radius:50%; background:rgba(248,113,113,0.1); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; border:2px solid rgba(248,113,113,0.2);">
+                        <i class="bi bi-trash-fill" style="font-size:2.5rem; color:var(--danger);"></i>
+                    </div>
+
+                    <h4 class="fw-bold mb-2">Are you sure?</h4>
+                    <p style="color:var(--text-muted); margin-bottom:1.5rem;">
+                        You are about to permanently delete the following student record.<br>
+                        This action <strong style="color:var(--danger);">cannot be undone</strong>.
+                    </p>
+
+                    <!-- Student Details -->
+                    <div class="text-start mx-auto" style="max-width:420px;">
+                        <table class="table" style="margin-bottom:0;">
+                            <tbody>
+                                <tr>
+                                    <td style="color:var(--text-muted); width:35%; font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Student ID</td>
+                                    <td>
+                                        <span class="badge" style="background:rgba(99,102,241,0.15); color:var(--accent);">
+                                            #{{ student.id }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Name</td>
+                                    <td class="fw-semibold">{{ student.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Age</td>
+                                    <td>{{ student.age }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Gender</td>
+                                    <td>{{ student.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Course</td>
+                                    <td>
+                                        <span class="badge" style="background:rgba(52,211,153,0.12); color:var(--success); font-weight:500;">
+                                            {{ student.course }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Email</td>
+                                    <td style="color:var(--text-muted);">{{ student.email or '—' }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text-muted); font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">Phone</td>
+                                    <td style="color:var(--text-muted);">{{ student.phone or '—' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <form method="POST">
+                        <div class="d-flex justify-content-center gap-3 mt-4 pt-3" style="border-top: 1px solid var(--border-color);">
+
+                            <a href="/students" class="btn btn-secondary-glass btn-lg" id="cancel-delete-btn">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-danger-glow btn-lg" id="confirm-delete-btn">
+                                <i class="bi bi-trash-fill me-1"></i>
+                                Delete Student
+                            </button>
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

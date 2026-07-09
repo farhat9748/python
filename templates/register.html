@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Register | StudentHub{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card glow-border mt-5">
+                <div class="card-header text-center py-4" style="background: var(--gradient-2);">
+                    <i class="bi bi-person-plus-fill mb-2" style="font-size:2rem; color:white;"></i>
+                    <h3 class="mb-0 text-white fw-bold">Create Account</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" placeholder="Choose a username" required autofocus>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Create a password" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label" for="role">Role</label>
+                            <select class="form-select" name="role" id="role" required>
+                                <option value="User">User (View Only)</option>
+                                <option value="Admin">Admin (Full Access)</option>
+                            </select>
+                            <div class="form-text mt-2" style="color:var(--text-muted); font-size:0.8rem;">
+                                Note: For demo purposes, you can freely choose to register as an Admin.
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-accent btn-lg fw-bold" style="background: var(--gradient-2);">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p style="color:var(--text-muted); font-size:0.9rem;">
+                            Already have an account? <a href="{{ url_for('login') }}" style="color:#38bdf8; text-decoration:none; font-weight:600;">Login here</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

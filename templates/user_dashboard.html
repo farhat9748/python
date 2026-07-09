@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard | StudentHub{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="card glow-border" style="border-radius:20px;">
+                <div class="card-body text-center py-5 px-4">
+
+                    <div style="font-size:4rem; margin-bottom:1rem;">
+                        <i class="bi bi-person-circle text-gradient" style="-webkit-text-fill-color: unset; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    </div>
+
+                    <h1 class="display-5 fw-bold mb-3" style="color:var(--text-primary);">
+                        Hello, {{ session['username'] }}!
+                    </h1>
+
+                    <p class="lead mb-4" style="color: var(--text-muted); max-width:600px; margin:0 auto;">
+                        Welcome to the Student Management System. As a registered user, you can browse through the directory and search for specific students.
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                        <a href="/students" class="btn btn-accent btn-lg">
+                            <i class="bi bi-people-fill me-1"></i>
+                            Browse Directory
+                        </a>
+                        <a href="/search" class="btn btn-secondary-glass btn-lg">
+                            <i class="bi bi-search me-1"></i>
+                            Search Students
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card glow-border">
+                <div class="card-body text-center p-4">
+                    <p style="color:var(--text-muted); margin:0;">
+                        <i class="bi bi-info-circle-fill me-2" style="color:#38bdf8;"></i>
+                        Currently, there are <strong style="color:var(--text-primary);">{{ total_students }}</strong> students in the system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
